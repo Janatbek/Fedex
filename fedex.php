@@ -256,10 +256,13 @@ class fedex {
                                 <a href=\"http://fedex.com/us/developer/index.html\" target=\"_blank\">".__('Click Here','wpsc')."</a>.
                         </td>
                     </tr>");
-        $selected_env = $wpsc_fedex_settings['environment'];
-        if ($selected_env == "1"){
+        $wpsc_fedex_settings['environment'] = '';
+        if (isset($wpsc_fedex_settings['environment']))
+	        $selected_env = $wpsc_fedex_settings['environment'];
+        $env_test = '';
+        if ($selected_env == "1")
             $env_test = "checked=\"checked\"";
-        }
+        
         $output .= ("
                     <tr>
                         <td><label for=\"fedex_env_test\" >".__('Use Testing Environment', 'wpsc')."</label></td>
