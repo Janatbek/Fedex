@@ -7,7 +7,7 @@
  *  Author: Greg Gullet and Instinct 
  *  Author URI: http://www.getshopped.org/
 */
-
+define('WPSC_FEDEX_VERSION' , '1.5.5' );
 define('FEDEX_FILE_PATH', dirname(__FILE__));
 
 class fedex {
@@ -750,4 +750,17 @@ function fedex_add_module() {
 fedex_add_module();
 //adds fedex to the list of shipping modules
 //add_filter('wpsc_shipping_modules', 'fedex_add_module');
+function wpsc_fedex_auto_upgrade(){	
+	if(is_super_admin()){
+		require_once("wpec-auto-upgrade/wpec-auto-upgrade.php");
+		$update_args = array(
+			'plugin_name' => 'WPEC Fedex Shipping',
+			'chk_file_location' => 'http://getshopped.org/wp-content/version-checker/fedex-shipping-module.chk',
+			'current_version' => WPSC_FEDEX_VERSION,
+			'plugin_basename' => plugin_basename(__FILE__)
+		);
+		$wpec_members_upgrade = new wpec_auto_upgrade($update_args);
+	}
+}
+add_action('plugins_loaded' , 'wpsc_fedex_auto_upgrade');
 ?>
