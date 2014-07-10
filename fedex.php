@@ -3,11 +3,11 @@
  *  Plugin Name: Wp-e-Commerce Fedex Shipping Module
  *  Plugin URI: http://getshopped.org/extend/premium-upgrades/premium-upgrades/fedex-shipping-module/
  *  Description: A Fedex Shipping Module for Wp-e-commerce
- *  Version: 1.5.5
+ *  Version: 1.5.6
  *  Author: Greg Gullet and Instinct 
  *  Author URI: http://www.getshopped.org/
 */
-define('WPSC_FEDEX_VERSION' , '1.5.5' );
+
 define('FEDEX_FILE_PATH', dirname(__FILE__));
 
 class fedex {
@@ -133,6 +133,7 @@ class fedex {
             $this->service_wsdl = "library/Test_RateService_v7.wsdl";
         }else{
             $this->service_wsdl = "library/Prod_RateService_v7.wsdl";
+//            $this->service_wsdl = "library/RateService_v14.wsdl";
         }
     }
 
@@ -256,13 +257,10 @@ class fedex {
                                 <a href=\"http://fedex.com/us/developer/index.html\" target=\"_blank\">".__('Click Here','wpsc')."</a>.
                         </td>
                     </tr>");
-        $wpsc_fedex_settings['environment'] = '';
-        if (isset($wpsc_fedex_settings['environment']))
-	        $selected_env = $wpsc_fedex_settings['environment'];
-        $env_test = '';
-        if ($selected_env == "1")
+        $selected_env = $wpsc_fedex_settings['environment'];
+        if ($selected_env == "1"){
             $env_test = "checked=\"checked\"";
-        
+        }
         $output .= ("
                     <tr>
                         <td><label for=\"fedex_env_test\" >".__('Use Testing Environment', 'wpsc')."</label></td>
@@ -753,17 +751,4 @@ function fedex_add_module() {
 fedex_add_module();
 //adds fedex to the list of shipping modules
 //add_filter('wpsc_shipping_modules', 'fedex_add_module');
-function wpsc_fedex_auto_upgrade(){	
-	if(is_super_admin()){
-		require_once("wpec-auto-upgrade/wpec-auto-upgrade.php");
-		$update_args = array(
-			'plugin_name' => 'WPEC Fedex Shipping',
-			'chk_file_location' => 'http://getshopped.org/wp-content/version-checker/fedex-shipping-module.chk',
-			'current_version' => WPSC_FEDEX_VERSION,
-			'plugin_basename' => plugin_basename(__FILE__)
-		);
-		$wpec_members_upgrade = new wpec_auto_upgrade($update_args);
-	}
-}
-add_action('plugins_loaded' , 'wpsc_fedex_auto_upgrade');
 ?>
